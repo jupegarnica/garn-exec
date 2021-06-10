@@ -18,11 +18,13 @@ export const exec = async (command) => {
   let status;
   let stdout;
   let stderr;
+  console.log({ splits });
   try {
     p = Deno.run({
       cmd: splits,
       stdout: 'piped',
       stderr: 'piped',
+      cwd: exec.cwd,
     });
 
     const decoder = new TextDecoder();
@@ -37,6 +39,7 @@ export const exec = async (command) => {
       stdout,
       stderr,
     };
+    console.log(result);
     if (!status.success) throw result;
     return result;
   } catch (error) {
@@ -50,3 +53,7 @@ export const exec = async (command) => {
     throw error;
   }
 };
+
+export const cd = (path) => (exec.cwd = path);
+
+export const $ = () => '';

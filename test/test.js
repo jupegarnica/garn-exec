@@ -1,4 +1,4 @@
-import { exec } from './main.js';
+import { exec, cd } from '../exec.js';
 import {
   assertEquals,
   assertStringIncludes,
@@ -33,6 +33,24 @@ Deno.test({
     }
   },
 });
+
+Deno.test({
+  only: true,
+  name: 'must fail exit code is not 0',
+  fn: async () => {
+    try {
+      await exec('exit 1');
+      throw 'fails';
+    } catch (error) {
+      console.log({ error });
+      const { code, success, stdout, stderr } = error;
+      assertEquals(code, 1);
+      assertEquals(success, false);
+      assertStringIncludes(stderr, 'this fails');
+      assertEquals(stdout, '');
+    }
+  },
+});
 Deno.test({
   name: 'must fail if the process can not be launch',
   fn: async () => {
@@ -53,25 +71,12 @@ Deno.test({
   name: 'must work with &&',
   fn: async () => {
     const { code, success, stdout, stderr } = await exec(
-      'echo hola && ls',
+      'echo hola && echo mundo',
     );
     assertEquals(code, 0);
     assertEquals(success, true);
     assertEquals(stderr, '');
-    assertStringIncludes(stdout, 'hola');
-  },
-});
-Deno.test({
-  // only: true,
-  name: 'must work with && 2',
-  fn: async () => {
-    const { code, success, stdout, stderr } = await exec(
-      'ls && echo hola',
-    );
-    assertEquals(code, 0);
-    assertEquals(success, true);
-    assertEquals(stderr, '');
-    assertStringIncludes(stdout, 'hola');
+    assertEquals(stdout, 'hola');
   },
 });
 
@@ -79,11 +84,11 @@ Deno.test({
   // only: true,
   name: 'must work with cd',
   fn: async () => {
-    await exec('cd /home');
-    const { code, success, stdout, stderr } = await exec('ls');
+    await cd('/home');
+    const { code, success, stdout, stderr } = await exec('pwd');
     assertEquals(code, 0);
     assertEquals(success, true);
     assertEquals(stderr, '');
-    assertStringIncludes(stdout, 'hola');
+    assertEquals(stdout, '/home\n');
   },
 });
