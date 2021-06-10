@@ -1,5 +1,6 @@
 import { resolve } from 'https://deno.land/std@0.98.0/path/mod.ts';
 import { existsSync } from 'https://deno.land/std@0.98.0/fs/mod.ts';
+
 function splitCommand(command) {
   const myRegexp = /[^\s"]+|"([^"]*)"/gi;
   const splits = [];
