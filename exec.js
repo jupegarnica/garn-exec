@@ -18,7 +18,6 @@ export const exec = async (command) => {
   let status;
   let stdout;
   let stderr;
-  console.log({ splits });
   try {
     p = Deno.run({
       cmd: splits,
@@ -39,12 +38,12 @@ export const exec = async (command) => {
       stdout,
       stderr,
     };
-    console.log(result);
     if (!status.success) throw result;
     return result;
   } catch (error) {
     if (error instanceof Error) {
       throw {
+        code: -1,
         success: false,
         stderr: error.message,
         error,
@@ -56,4 +55,4 @@ export const exec = async (command) => {
 
 export const cd = (path) => (exec.cwd = path);
 
-export const $ = () => '';
+export const $ = () => './';

@@ -22,7 +22,7 @@ Deno.test({
   name: 'must fail if the process fails',
   fn: async () => {
     try {
-      await exec('deno run fail.js');
+      await exec('deno run test/fail.js');
       throw 'fails';
     } catch (error) {
       const { code, success, stdout, stderr } = error;
@@ -35,24 +35,7 @@ Deno.test({
 });
 
 Deno.test({
-  only: true,
-  name: 'must fail exit code is not 0',
-  fn: async () => {
-    try {
-      await exec('exit 1');
-      throw 'fails';
-    } catch (error) {
-      console.log({ error });
-      const { code, success, stdout, stderr } = error;
-      assertEquals(code, 1);
-      assertEquals(success, false);
-      assertStringIncludes(stderr, 'this fails');
-      assertEquals(stdout, '');
-    }
-  },
-});
-Deno.test({
-  name: 'must fail if the process can not be launch',
+  name: 'must fail with code -1 if the process can not be launch',
   fn: async () => {
     try {
       await exec('asdqwewerññ');
@@ -60,23 +43,41 @@ Deno.test({
     } catch (error) {
       const { code, success, stdout, stderr } = error;
       assertStringIncludes(stderr, 'os error 2');
-      assertEquals(code, undefined);
+      assertEquals(code, -1);
       assertEquals(success, false);
       assertEquals(stdout, undefined);
     }
   },
 });
+
 Deno.test({
   // only: true,
-  name: 'must work with &&',
+  name: 'must work with sh scripts',
   fn: async () => {
     const { code, success, stdout, stderr } = await exec(
-      'echo hola && echo mundo',
+      'sh test/success.sh',
     );
     assertEquals(code, 0);
     assertEquals(success, true);
     assertEquals(stderr, '');
-    assertEquals(stdout, 'hola');
+    assertStringIncludes(stdout, 'fail.sh');
+    assertStringIncludes(stdout, 'fail.js');
+  },
+});
+Deno.test({
+  // only: true,
+  name: 'must fail if exit code is not 0',
+  fn: async () => {
+    try {
+      cd('test');
+      await exec('sh fail.sh');
+      throw 'fails';
+    } catch (error) {
+      const { code, success, stdout } = error;
+      assertEquals(code, 4);
+      assertEquals(success, false);
+      assertStringIncludes(stdout, 'test');
+    }
   },
 });
 
