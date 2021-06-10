@@ -1,2 +1,2 @@
-pwd
+echo hola mundo
 exit 4

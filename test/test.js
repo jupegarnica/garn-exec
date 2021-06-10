@@ -1,8 +1,10 @@
-import { exec, cd } from '../exec.js';
+import { exec, cd, $ } from '../exec.js';
 import {
   assertEquals,
   assertStringIncludes,
+  assertThrows,
 } from 'https://deno.land/std@0.98.0/testing/asserts.ts';
+
 Deno.test({
   // ignore: false,
   name: 'must resolve',
@@ -69,15 +71,27 @@ Deno.test({
   name: 'must fail if exit code is not 0',
   fn: async () => {
     try {
-      cd('test');
-      await exec('sh fail.sh');
+      await exec('sh test/fail.sh');
       throw 'fails';
     } catch (error) {
       const { code, success, stdout } = error;
       assertEquals(code, 4);
       assertEquals(success, false);
-      assertStringIncludes(stdout, 'test');
+      assertStringIncludes(stdout, 'hola mundo\n');
     }
+  },
+});
+
+Deno.test({
+  // only: true,
+  name: 'must work with $ tagged string',
+  fn: async () => {
+    const { code, success, stdout, stderr } = await $`l${'s'} .`;
+    assertEquals(code, 0);
+    assertEquals(success, true);
+    assertEquals(stderr, '');
+    assertStringIncludes(stdout, 'test\n');
+    assertStringIncludes(stdout, 'exec.js\n');
   },
 });
 
@@ -85,11 +99,14 @@ Deno.test({
   // only: true,
   name: 'must work with cd',
   fn: async () => {
-    await cd('/home');
-    const { code, success, stdout, stderr } = await exec('pwd');
-    assertEquals(code, 0);
-    assertEquals(success, true);
-    assertEquals(stderr, '');
-    assertEquals(stdout, '/home\n');
+    cd('./test');
+    const r1 = await exec('pwd');
+
+    assertStringIncludes(r1.stdout, '/test\n');
+
+    cd('..');
+    const r2 = await exec('pwd');
+    assertStringIncludes(r2.stdout, '/garn-exec\n');
+    assertThrows(() => cd('./notFoundFolder'));
   },
 });

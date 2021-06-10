@@ -1,3 +1,5 @@
+import { resolve } from 'https://deno.land/std@0.98.0/path/mod.ts';
+import { existsSync } from 'https://deno.land/std@0.98.0/fs/mod.ts';
 function splitCommand(command) {
   const myRegexp = /[^\s"]+|"([^"]*)"/gi;
   const splits = [];
@@ -52,7 +54,19 @@ export const exec = async (command) => {
     throw error;
   }
 };
+exec.cwd = './';
+export const cd = (path) => {
+  const cwd = resolve(exec.cwd, path);
+  if (!existsSync(cwd)) {
+    throw new Error('Folder not found: ' + cwd);
+  }
+  exec.cwd = cwd;
+};
 
-export const cd = (path) => (exec.cwd = path);
-
-export const $ = () => './';
+export const $ = (strings, ...interpolations) => {
+  let command = strings[0];
+  for (let index = 0; index < interpolations.length; index++) {
+    command += interpolations[index] + strings[index + 1];
+  }
+  return exec(command);
+};
