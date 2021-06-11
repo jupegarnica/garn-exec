@@ -1,12 +1,12 @@
 import { resolve } from 'https://deno.land/std@0.98.0/path/mod.ts';
 import { existsSync } from 'https://deno.land/std@0.98.0/fs/mod.ts';
 
-function splitCommand(command) {
-  const myRegexp = /[^\s"]+|"([^"]*)"/gi;
+export function splitCommand(command) {
+  const regexp = /[^\s"]+|"([^"]*)"/gi;
   const splits = [];
   let match;
   do {
-    match = myRegexp.exec(command);
+    match = regexp.exec(command);
     if (match != null) {
       splits.push(match[1] ? match[1] : match[0]);
     }
@@ -64,10 +64,20 @@ export const cd = (path) => {
   exec.cwd = cwd;
 };
 
-export const $ = (strings, ...interpolations) => {
+function concat(strings, ...interpolations) {
   let command = strings[0];
   for (let index = 0; index < interpolations.length; index++) {
     command += interpolations[index] + strings[index + 1];
   }
+  return command;
+}
+
+export const $ = (strings, ...interpolations) => {
+  const command = concat(strings, ...interpolations);
   return exec(command);
+};
+
+export const bash = (strings, ...interpolations) => {
+  const command = concat(strings, ...interpolations);
+  return exec(`sh -c "${command}"`);
 };

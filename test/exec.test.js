@@ -1,8 +1,7 @@
-import { exec, cd, $ } from '../exec.js';
+import { exec } from '../exec.js';
 import {
   assertEquals,
   assertStringIncludes,
-  assertThrows,
 } from 'https://deno.land/std@0.98.0/testing/asserts.ts';
 
 Deno.test({
@@ -16,6 +15,20 @@ Deno.test({
     assertEquals(success, true);
     assertEquals(stderr, '');
     assertStringIncludes(stdout, 'hola');
+  },
+});
+
+Deno.test({
+  // ignore: false,
+  name: 'must split right',
+  fn: async () => {
+    const { code, success, stdout, stderr } = await exec(
+      'echo "hola mundo"',
+    );
+    assertEquals(code, 0);
+    assertEquals(success, true);
+    assertEquals(stderr, '');
+    assertEquals(stdout, 'hola mundo\n');
   },
 });
 
@@ -62,8 +75,8 @@ Deno.test({
     assertEquals(code, 0);
     assertEquals(success, true);
     assertEquals(stderr, '');
-    assertStringIncludes(stdout, 'fail.sh');
-    assertStringIncludes(stdout, 'fail.js');
+    assertStringIncludes(stdout, 'fail.sh\n');
+    assertStringIncludes(stdout, 'fail.js\n');
   },
 });
 Deno.test({
@@ -79,34 +92,5 @@ Deno.test({
       assertEquals(success, false);
       assertStringIncludes(stdout, 'hola mundo\n');
     }
-  },
-});
-
-Deno.test({
-  // only: true,
-  name: 'must work with $ tagged string',
-  fn: async () => {
-    const { code, success, stdout, stderr } = await $`l${'s'} .`;
-    assertEquals(code, 0);
-    assertEquals(success, true);
-    assertEquals(stderr, '');
-    assertStringIncludes(stdout, 'test\n');
-    assertStringIncludes(stdout, 'exec.js\n');
-  },
-});
-
-Deno.test({
-  // only: true,
-  name: 'must work with cd',
-  fn: async () => {
-    cd('./test');
-    const r1 = await exec('pwd');
-
-    assertStringIncludes(r1.stdout, '/test\n');
-
-    cd('..');
-    const r2 = await exec('pwd');
-    assertStringIncludes(r2.stdout, '/garn-exec\n');
-    assertThrows(() => cd('./notFoundFolder'));
   },
 });
