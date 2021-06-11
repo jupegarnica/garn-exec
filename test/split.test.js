@@ -16,7 +16,9 @@ Deno.test({
   fn: () => {
     const splits = splitCommand(`
     echo hola;
+
     echo adios;
+
     `);
     assertEquals(splits, ['echo', 'hola;', 'echo', 'adios;']);
   },

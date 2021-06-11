@@ -1,8 +1,5 @@
-import { bash, cd } from '../exec.js';
-import {
-  assertEquals,
-  assertStringIncludes,
-} from 'https://deno.land/std@0.98.0/testing/asserts.ts';
+import { bash } from '../exec.js';
+import { assertEquals } from 'https://deno.land/std@0.98.0/testing/asserts.ts';
 
 Deno.test({
   // only: true,
