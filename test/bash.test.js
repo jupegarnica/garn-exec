@@ -40,7 +40,6 @@ Deno.test({
       throw 'fails';
     } catch (error) {
       const { code, success, stdout, stderr } = error;
-      console.log(stdout);
       assertEquals(code, 33);
       assertEquals(success, false);
       assertEquals(stderr, '');

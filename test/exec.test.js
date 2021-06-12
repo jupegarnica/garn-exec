@@ -94,3 +94,19 @@ Deno.test({
     }
   },
 });
+
+// Deno.test({
+//   // only: true,
+//   name: 'must fail if exit code is not 0',
+//   fn: async () => {
+//     try {
+//       await exec('tail -f test/fail.sh');
+//       throw 'fails';
+//     } catch (error) {
+//       const { code, success, stdout } = error;
+//       assertEquals(code, 4);
+//       assertEquals(success, false);
+//       assertStringIncludes(stdout, 'hola mundo\n');
+//     }
+//   },
+// });
