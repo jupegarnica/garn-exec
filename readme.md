@@ -23,8 +23,8 @@ console.log(code); // 0
 import { $ } from '../exec.js';
 
 try {
-  await $`sh tests/fail.sh`;
+  await $`sh test/fail.sh`;
 } catch (error) {
-  console.log(error.code); // 1
+  console.log(error.code); // 4
 }
 ```

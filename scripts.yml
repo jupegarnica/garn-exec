@@ -1,0 +1,3 @@
+scripts:
+  test-watch: deno test --unstable --allow-run --allow-read  --watch
+  test: deno test --unstable --allow-run --allow-read
