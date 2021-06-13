@@ -1,4 +1,4 @@
 scripts:
   test-watch: deno test --unstable --allow-run --allow-read  --watch
   test: deno test --unstable --allow-run --allow-read
-  version: git tag -a 0.2.0 -m "new release" && git push origin master --tags
+  release: git tag -a 0.2.0 -m "new release" && git push origin master --tags
