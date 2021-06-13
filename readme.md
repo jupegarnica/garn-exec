@@ -2,7 +2,7 @@
 
 A deno utility to run subprocess easily.
 
-## Usage
+## $ usage
 
 ```js
 import { $ } from '../exec.js';
@@ -27,4 +27,19 @@ try {
 } catch (error) {
   console.log(error.code); // 4
 }
+```
+
+## cd usage
+
+```js
+import { $, cd } from '../exec.js';
+cd('test');
+await $`ls`;
+```
+
+## bash usage
+
+```js
+import { bash } from '../exec.js';
+await bash`cd test && ls | grep fail`;
 ```
