@@ -5,13 +5,13 @@ A deno utility to run subprocess easily.
 ## $ usage
 
 ```js
-import { $ } from 'https://deno.land/x/garn_exec@0.2.0';
+import { $ } from 'https://deno.land/x/garn_exec@0.3.0/exec.js';
 
 await $`cp *.js ..`;
 ```
 
 ```js
-import { $ } from 'https://deno.land/x/garn_exec@0.2.0';
+import { $ } from 'https://deno.land/x/garn_exec@0.3.0/exec.js';
 
 const { stdout, code } = await $`echo hola mundo`;
 
@@ -20,7 +20,7 @@ console.log(code); // 0
 ```
 
 ```js
-import { $ } from 'https://deno.land/x/garn_exec@0.2.0';
+import { $ } from 'https://deno.land/x/garn_exec@0.3.0/exec.js';
 
 try {
   await $`sh test/fail.sh`;
@@ -32,7 +32,10 @@ try {
 ## cd usage
 
 ```js
-import { $, cd } from 'https://deno.land/x/garn_exec@0.2.0';
+import {
+  $,
+  cd,
+} from 'https://deno.land/x/garn_exec@0.3.0/exec.js';
 cd('test');
 await $`ls`;
 ```
@@ -40,6 +43,6 @@ await $`ls`;
 ## bash usage
 
 ```js
-import { bash } from 'https://deno.land/x/garn_exec@0.2.0';
+import { bash } from 'https://deno.land/x/garn_exec@0.3.0/exec.js';
 await bash`cd test && ls | grep fail`;
 ```
