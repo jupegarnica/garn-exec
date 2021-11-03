@@ -1,4 +1,8 @@
 scripts:
-  test-watch: deno test --unstable --allow-run --allow-read  --watch
   test: deno test --unstable --allow-run --allow-read
   release: git tag -a 0.3.0 -m "new release" && git push origin master --tags
+
+  deps:
+    desc: Update dependencies with ensuring pass tests
+    cmd:
+      - deno run -A https://deno.land/x/udd/main.ts exec.js --test="vr test"
