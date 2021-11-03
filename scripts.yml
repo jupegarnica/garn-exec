@@ -1,6 +1,6 @@
 scripts:
   test: deno test --unstable --allow-run --allow-read
-  release: git tag -a 0.3.0 -m "new release" && git push origin master --tags
+  release: git tag -a 0.3.1 -m "new release" && git push origin master --tags
 
   deps:
     desc: Update dependencies with ensuring pass tests
