@@ -4,6 +4,8 @@ A deno utility to run subprocess easily.
 
 ## $ usage
 
+Must be run --allow-run permission.
+
 ```js
 import { $ } from "https://deno.land/x/garn_exec@0.3.0/exec.js";
 
