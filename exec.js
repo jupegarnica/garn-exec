@@ -1,5 +1,5 @@
-import { resolve } from 'https://deno.land/std@0.113.0/path/mod.ts';
-import { existsSync } from 'https://deno.land/std@0.113.0/fs/mod.ts';
+import { resolve } from "https://deno.land/std@0.113.0/path/mod.ts";
+import { existsSync } from "https://deno.land/std@0.113.0/fs/mod.ts";
 
 export function splitCommand(command) {
   const regexp = /[^\s"]+|"([^"]*)"/gi;
@@ -24,8 +24,8 @@ export const exec = async (command) => {
   try {
     p = Deno.run({
       cmd: splits,
-      stdout: 'piped',
-      stderr: 'piped',
+      stdout: "piped",
+      stderr: "piped",
       cwd: exec.cwd,
     });
 
@@ -55,11 +55,11 @@ export const exec = async (command) => {
     throw error;
   }
 };
-exec.cwd = './';
+exec.cwd = "./";
 export const cd = (path) => {
   const cwd = resolve(exec.cwd, path);
   if (!existsSync(cwd)) {
-    throw new Error('Folder not found: ' + cwd);
+    throw new Error("Folder not found: " + cwd);
   }
   exec.cwd = cwd;
 };
