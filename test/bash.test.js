@@ -1,11 +1,11 @@
-import { bash } from "../exec.js";
+import { sh } from "../exec.js";
 import { assertEquals } from "https://deno.land/std@0.98.0/testing/asserts.ts";
 
 Deno.test({
   // only: true,
   name: "must work with piping",
   fn: async () => {
-    const { code, success, stdout, stderr } = await bash`ls | grep test`;
+    const { code, success, stdout, stderr } = await sh`ls | grep test`;
     assertEquals(code, 0);
     assertEquals(success, true);
     assertEquals(stderr, "");
@@ -17,7 +17,7 @@ Deno.test({
   // only: true,
   name: "must work with &&",
   fn: async () => {
-    const { code, success, stdout, stderr } = await bash
+    const { code, success, stdout, stderr } = await sh
       `cd test && ls | grep fail`;
     assertEquals(code, 0);
     assertEquals(success, true);
@@ -31,7 +31,7 @@ Deno.test({
   name: "must work as script",
   fn: async () => {
     try {
-      await bash`
+      await sh`
     cd test;
     ls | grep fail;
     echo hola;

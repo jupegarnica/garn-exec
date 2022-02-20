@@ -77,7 +77,7 @@ export const $ = (strings, ...interpolations) => {
   return exec(command);
 };
 
-export const bash = (strings, ...interpolations) => {
+export const sh = (strings, ...interpolations) => {
   const command = concat(strings, ...interpolations);
   return exec(`sh -c "${command}"`);
 };

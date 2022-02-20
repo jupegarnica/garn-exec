@@ -7,13 +7,13 @@ A deno utility to run subprocess easily.
 Must be run --allow-run permission.
 
 ```js
-import { $ } from "https://deno.land/x/garn_exec@0.3.0/exec.js";
+import { $ } from "https://deno.land/x/garn_exec/exec.js";
 
 await $`cp *.js ..`;
 ```
 
 ```js
-import { $ } from "https://deno.land/x/garn_exec@0.3.0/exec.js";
+import { $ } from "https://deno.land/x/garn_exec/exec.js";
 
 const { stdout, code } = await $`echo hola mundo`;
 
@@ -22,7 +22,7 @@ console.log(code); // 0
 ```
 
 ```js
-import { $ } from "https://deno.land/x/garn_exec@0.3.0/exec.js";
+import { $ } from "https://deno.land/x/garn_exec/exec.js";
 
 try {
   await $`sh test/fail.sh`;
@@ -34,14 +34,14 @@ try {
 ## cd usage
 
 ```js
-import { $, cd } from "https://deno.land/x/garn_exec@0.3.0/exec.js";
+import { $, cd } from "https://deno.land/x/garn_exec/exec.js";
 cd("test");
 await $`ls`;
 ```
 
-## bash usage
+## sh usage
 
 ```js
-import { bash } from "https://deno.land/x/garn_exec@0.3.0/exec.js";
-await bash`cd test && ls | grep fail`;
+import { sh } from "https://deno.land/x/garn_exec/exec.js";
+await sh`cd test && ls | grep fail`;
 ```
