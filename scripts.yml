@@ -6,3 +6,4 @@ scripts:
     desc: Update dependencies with ensuring pass tests
     cmd:
       - deno run -A https://deno.land/x/udd/main.ts exec.js --test="vr test"
+      - deno run -A https://deno.land/x/udd/main.ts test/deps.ts --test="vr test"
